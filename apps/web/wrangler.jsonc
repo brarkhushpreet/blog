@@ -1,0 +1,28 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "khushpreet-blog-web",
+  "compatibility_date": "2026-08-26",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "main": "vinext/server/fetch-handler",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{ "pattern": "blog.khushpreet.dev", "custom_domain": true }],
+  "vars": {
+    "API_URL": "https://blog-api.khushpreet.dev/api",
+    "NEXT_PUBLIC_API_URL": "https://blog-api.khushpreet.dev/api",
+    "NEXT_PUBLIC_SITE_URL": "https://blog.khushpreet.dev"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "dist/client",
+    "not_found_handling": "none",
+    "binding": "ASSETS"
+  },
+  "cache": {
+    "enabled": true
+  }
+}

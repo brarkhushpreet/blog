@@ -1,3 +1,8 @@
-/node_modules
-/.next
-/out
+node_modules
+apps/web/.next
+apps/api/dist
+.git
+.env
+.env.*
+!.env.example
+npm-debug.log*

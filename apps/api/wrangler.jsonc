@@ -1,0 +1,22 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "khushpreet-blog-api",
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-08-26",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{ "pattern": "blog-api.khushpreet.dev", "custom_domain": true }],
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "NODE_ENV": "production",
+    "CLOUDFLARE_WORKER": "true",
+    "MONGO_DB_NAME": "blog_db",
+    "FRONTEND_URL": "https://blog.khushpreet.dev"
+  },
+  "secrets": {
+    "required": ["MONGO_URI"]
+  }
+}

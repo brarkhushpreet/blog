@@ -1,27 +1,28 @@
 {
-  "name": "blog",
-  "version": "0.1.0",
+  "name": "creative-thoughts",
+  "version": "2.0.0",
   "private": true,
+  "workspaces": ["apps/*"],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev:api": "npm run dev --workspace @creative-thoughts/api",
+    "dev:web": "npm run dev --workspace @creative-thoughts/web",
+    "dev:api:cloudflare": "npm run dev:cloudflare --workspace @creative-thoughts/api",
+    "dev:web:cloudflare": "npm run dev:vinext --workspace @creative-thoughts/web",
+    "seed": "npm run seed --workspace @creative-thoughts/api",
+    "build:api": "npm run build --workspace @creative-thoughts/api",
+    "build:web": "npm run build --workspace @creative-thoughts/web",
+    "build:api:cloudflare": "npm run build:cloudflare --workspace @creative-thoughts/api",
+    "build:web:cloudflare": "npm run build:vinext --workspace @creative-thoughts/web",
+    "package:cloudflare": "node scripts/package-cloudflare.mjs",
+    "start:api": "npm run start --workspace @creative-thoughts/api",
+    "start:web": "npm run start --workspace @creative-thoughts/web",
+    "preview:web:cloudflare": "npm run start:vinext --workspace @creative-thoughts/web",
+    "deploy:api:cloudflare": "npm run deploy:cloudflare --workspace @creative-thoughts/api",
+    "deploy:web:cloudflare": "npm run deploy:vinext --workspace @creative-thoughts/web",
+    "typecheck:api": "npm run typecheck --workspace @creative-thoughts/api",
+    "typecheck:web": "npm run typecheck --workspace @creative-thoughts/web"
   },
-  "dependencies": {
-    "axios": "^1.6.5",
-    "bcryptjs": "^2.4.3",
-    "install": "^0.13.0",
-    "mongodb": "^6.3.0",
-    "mongoose": "^8.0.3",
-    "next": "14.0.4",
-    "next-auth": "^5.0.0-beta.3",
-    "npm": "^10.2.5",
-    "react": "^18",
-    "react-dom": "^18"
-  },
-  "devDependencies": {
-    "eslint": "^8",
-    "eslint-config-next": "14.0.4"
+  "engines": {
+    "node": ">=20.9.0"
   }
 }

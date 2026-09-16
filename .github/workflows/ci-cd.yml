@@ -1,0 +1,58 @@
+name: Blog CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: blog-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      API_URL: https://blog-api.khushpreet.dev/api
+      NEXT_PUBLIC_API_URL: https://blog-api.khushpreet.dev/api
+      NEXT_PUBLIC_SITE_URL: https://blog.khushpreet.dev
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          package-manager-cache: false
+      - run: npm ci
+      - run: npm run typecheck:api && npm run typecheck:web
+      - run: npm run build:api:cloudflare
+      - run: npm run build:web:cloudflare
+      - run: npm run package:cloudflare
+
+  request-deployment:
+    needs: check
+    if: >-
+      github.repository == 'brarkhushpreet/blog' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      vars.AUTO_DEPLOY == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions: {}
+    steps:
+      - name: Request private blog deployment
+        env:
+          GH_TOKEN: ${{ secrets.OPS_DISPATCH_TOKEN }}
+          SOURCE_COMMIT: ${{ github.sha }}
+        run: |
+          gh api --method POST \
+            repos/brarkhushpreet/portfolio-ops/actions/workflows/deploy-blog.yml/dispatches \
+            -f ref=main \
+            -f "inputs[commit]=$SOURCE_COMMIT"
